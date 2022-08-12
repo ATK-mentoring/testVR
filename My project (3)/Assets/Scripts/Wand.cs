@@ -51,13 +51,14 @@ public class Wand : MonoBehaviour
         {
           if(hit.transform.gameObject.GetComponent<MeshCollider>()!= null) 
           {
+                hit.transform.gameObject.tag = "Wanded";
            // MakeObjectTransparent(hit.transform.gameObject);
-            SetFaded(hit.transform.gameObject);
-            Destroy(hit.transform.gameObject.GetComponent<MeshCollider>());
-            // Debug.Log("Collider Destroyed");
-          } 
+           // SetFaded(hit.transform.gameObject);
+           //  Destroy(hit.transform.gameObject.GetComponent<MeshCollider>());
+           // Debug.Log("Collider Destroyed");
+            } 
         }
-    }
+    } 
 
     private void MakeObjectTransparent(GameObject houseObject)
     {
@@ -85,29 +86,39 @@ public class Wand : MonoBehaviour
        mr.materials = newMaterials;
     
     }
+
+    #region HandleMaterials
+
+
     [SerializeField]
     Material TransparentDefault;
-private void SetFaded (GameObject houseObject) 
-{
- MeshRenderer mr = houseObject.GetComponent<MeshRenderer>();
- Material[] newMaterials = new Material[mr.materials.Length];
-      for(int i = 0; i < mr.materials.Length;i++)
-      {
-        newMaterials[i] = TransparentDefault;
-      }
-      mr.materials = newMaterials;
-}
+    Material[] oldMaterials;
+    public void SetFaded (GameObject houseObject) 
+    {
+        
+        MeshRenderer mr = houseObject.GetComponent<MeshRenderer>();
+        Material[] newMaterials = new Material[mr.materials.Length];
+
+        if (houseObject.GetComponent<HouseObject>() == null)
+        {
+            Material[] oldMaterials = new Material[mr.materials.Length];
+            oldMaterials = mr.materials;
+            houseObject.AddComponent<HouseObject>();
+            houseObject.GetComponent<HouseObject>().SetMyMaterials(oldMaterials);
+           
+        }
+        for (int i = 0; i < mr.materials.Length;i++)
+        {
+           newMaterials[i] = TransparentDefault;
+        }
+        mr.materials = newMaterials;
+    }
+
+    #endregion
 
 
 
-/* to do list
-1. Create new list of type materials*
-2. for each current material, create a new material that copies old materials with lowered alpha and add it to the new list, 
-    for loop of size x where x is current number of materials*
-      create a new material that copies old material*
-      lower the alpha *
-      add it to the new list*
-3. apply new list to gameobject materials list(for loop)
-*/
+
+  
 
 }

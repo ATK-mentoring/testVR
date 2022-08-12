@@ -18,8 +18,10 @@ public class CustomTeleporter : MonoBehaviour
     [SerializeField] GameObject leftController;
     [SerializeField] LineRenderer lr;
     GameObject tiPrefab; // Teleport Indicator 
-    GameObject ti; 
-    
+    GameObject ti;
+    List<GameObject> FadedObjects;
+
+    Wand wand;
 
     private float maxTeleportDistance = 20f;
     private float maxNormalAngle = 45f;
@@ -28,54 +30,79 @@ public class CustomTeleporter : MonoBehaviour
     {
         tiPrefab = Resources.Load<GameObject>("Prefab/TeleportIndicator");
         ti = Instantiate(tiPrefab,Vector3.zero,Quaternion.identity);
+        wand = FindObjectOfType<Wand>();
+        FadedObjects = new List<GameObject>();
     }
+
 
     // Update is called once per frame
     void Update()
     {
-       Teleport();
+        HandleTeleporter();
     }
 
-    private void Teleport() 
+    private void HandleTeleporter()
     {
-            ti.SetActive(false);
+        // Fade to normal
+        foreach (GameObject g in FadedObjects)
+        {
+            g.GetComponent<HouseObject>().ResetMyMaterials();
+            g.GetComponent<MeshCollider>().enabled = true;
 
-            
-            RaycastHit hit;
-           
-            if (Physics.Raycast(leftController.transform.position, leftController.transform.TransformDirection(Vector3.forward), out hit, maxTeleportDistance)) // layerMask
-            {
-                //Debug.DrawRay(leftController.transform.position, leftController.transform.TransformDirection(Vector3.forward) * hit.distance, Color.yellow);
-                //Debug.Log("Did Hit");
-                if(Vector3.Angle(Vector3.up, hit.normal) < maxNormalAngle)
+        }
+        FadedObjects.Clear();
+
+        Teleport();
+
+        // Fade Green
+        foreach (GameObject g in FadedObjects)
+        {
+            wand.SetFaded(g);
+            g.GetComponent<MeshCollider>().enabled = false;
+        }
+    }
+
+    private void Teleport()
+    {
+        ti.SetActive(false);
+
+
+        RaycastHit[] hits;
+        hits = Physics.RaycastAll(leftController.transform.position, leftController.transform.TransformDirection(Vector3.forward), maxTeleportDistance);
+        if (hits.Length > 0) // layerMask
+        {
+            System.Array.Sort(hits, (x, y) => x.distance.CompareTo(y.distance));
+            for (int i = 0; i < hits.Length; i++) {
+                if (hits[i].transform.gameObject.tag == "Wanded")
                 {
-                    //Debug.DrawRay(hit.point, hit.normal  * 1000, Color.yellow);
+                    FadedObjects.Add(hits[i].transform.gameObject);
+                    continue;
+                }
+                if (Vector3.Angle(Vector3.up, hits[i].normal) < maxNormalAngle)
+                {
                     ChangeLineRendererColor(Color.green);
                     ti.SetActive(true);
-                    ti.gameObject.transform.position = hit.point;
+                    ti.gameObject.transform.position = hits[i].point;
 
-                    if(Input.GetButtonDown("XRI_Left_TriggerButton"))
+                    if (Input.GetButtonDown("XRI_Left_TriggerButton"))
                     {
-                        gameObject.transform.position = hit.point;
+                        gameObject.transform.position = hits[i].point;
                     }
+                    break;
                 }
-                else 
+                else
                 {
-                    //Debug.Log("cannot teleport there");
+                    //cannot teleport there
                     ChangeLineRendererColor(Color.red);
+                    break;
                 }
-
             }
-            else
-            {
-                //Debug.DrawRay(leftController.transform.position, leftController.transform.TransformDirection(Vector3.forward) * 1000, Color.white);
-                //Debug.Log("Did not Hit");
-                ChangeLineRendererColor(Color.red);
-                
-            }
-
-        
-
+        }
+        else
+        {
+            // could not find a hit
+            ChangeLineRendererColor(Color.red);
+        }
     }
 
 
