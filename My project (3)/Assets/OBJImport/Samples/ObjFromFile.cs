@@ -21,6 +21,7 @@ public class ObjFromFile : MonoBehaviour
             }else{
                 if(loadedObject != null)            
                     Destroy(loadedObject);
+//////////////// USE THIS LINE /////////////////////////////////////////////////////////////////
                 loadedObject = new OBJLoader().Load(objPath);
                 error = string.Empty;
             }

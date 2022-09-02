@@ -4,29 +4,56 @@ using UnityEngine;
 using System.Text;
 using Dummiesman;
 using UnityEngine.Networking;
+using System.Net;
+using System;
+using System.IO.Compression;
 
 public class DownloadHandler : MonoBehaviour {
+    
+
+
+
 
     void Start () 
     {
         // GameObject loadedObject = new OBJLoader().Load(Application.dataPath + "/Resources/House 1.obj");
-        StartCoroutine(DownloadFile());
+       StartCoroutine(DownloadFile());
 
-        var loadedObj = new OBJLoader().Load(Path.Combine(Application.dataPath + "/Resources", "Test1.obj"));
-
+       // var loadedObj = new OBJLoader().Load(Path.Combine(Application.dataPath + "/Resources", "Test1.obj"));
+       
     }
+ 
 
-    IEnumerator DownloadFile()
-    {
-        var www = new WWW("https://drive.google.com/uc?export=view&id=1jNmntP7cxcZXilTe5S4NX-8Q-QkhXpXx");
-        yield return www;
-        var textStream = new MemoryStream(Encoding.UTF8.GetBytes(www.text));
-        var loadedObj = new OBJLoader().Load(textStream);
-        FindObjectOfType<WorldManager>().ApplyCollidersToHouse(loadedObj);
-    }
 
-    /* IEnumerator DownloadFile() {
-        string houseName = "House.obj";
+ 
+
+     IEnumerator DownloadFile() {
+
+
+
+        WebClient client = new WebClient();
+
+
+        string path = Application.persistentDataPath + "/" + "ArchicadObjSize.zip";
+        Debug.Log(Application.persistentDataPath);
+
+       
+
+        client.DownloadFile("https://github.com/ATK-mentoring/fbx-examples/blob/main/ArchicadObjSize.zip", path);
+        yield return null;
+
+       /* Stream data = client.OpenRead(@"https://github.com/ATK-mentoring/fbx-examples/blob/main/ArchicadObjSize.zip");
+        StreamReader reader = new StreamReader(data);
+        string s = reader.ReadToEnd();
+        Console.WriteLine(s);
+        data.Close();
+        reader.Close(); */
+
+
+
+
+
+        /* string houseName = "House.obj";
         var www = new UnityWebRequest("https://drive.google.com/file/d/1jNmntP7cxcZXilTe5S4NX-8Q-QkhXpXx/view?usp=sharing");
         string path = Path.Combine(Application.dataPath +"/Resources", houseName);
         www.downloadHandler = new DownloadHandlerFile(path);
@@ -43,7 +70,7 @@ public class DownloadHandler : MonoBehaviour {
          var textStream = new MemoryStream(Encoding.UTF8.GetBytes(www.downloadHandler.text));
        // var textStream = new MemoryStream(www.downloadHandler.data);
         var loadedObj = new OBJLoader().Load(textStream);
-        //GameObject loadedObject = new OBJLoader().Load(Application.dataPath + "/Resources/" + houseName);
+        //GameObject loadedObject = new OBJLoader().Load(Application.dataPath + "/Resources/" + houseName); */
     }
-    */
+    
 }

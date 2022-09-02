@@ -1,4 +1,4 @@
-using UnityEngine;
+/* using UnityEngine;
 using System.Collections;
 using System.IO;
 
@@ -13,3 +13,4 @@ public class Manager : MonoBehaviour {
 		loader.Load(Application.dataPath + "/Resources/", "Test1.obj");
 	}
 }
+*/
