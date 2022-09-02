@@ -12,10 +12,10 @@ public class WorldManager : MonoBehaviour
     // Start is called before the first frame update
     void Start()
     {
-        ApplyCollidersToHouse(house);
+        
     }
 
-    // Update is called once per frame
+    // Update is called once per fram
     void Update()
     {
         
@@ -25,7 +25,7 @@ public class WorldManager : MonoBehaviour
     2. create list of children
     3. call applycolliderstohouse on each child
     */
-    private void ApplyCollidersToHouse(GameObject parent)
+    public void ApplyCollidersToHouse(GameObject parent)
     {
         parent.AddComponent<MeshCollider>();
        
