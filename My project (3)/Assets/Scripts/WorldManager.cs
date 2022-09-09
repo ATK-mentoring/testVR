@@ -5,27 +5,10 @@ using UnityEngine;
 
 
 
-public class WorldManager : MonoBehaviour
+public static class WorldManager : object
 {
-    [SerializeField] GameObject house;
-
-    // Start is called before the first frame update
-    void Start()
-    {
-        
-    }
-
-    // Update is called once per fram
-    void Update()
-    {
-        
-    }
-    /*
-    1. add mesh collider to house
-    2. create list of children
-    3. call applycolliderstohouse on each child
-    */
-    public void ApplyCollidersToHouse(GameObject parent)
+   
+    public static void ApplyCollidersToHouse(GameObject parent)
     {
         parent.AddComponent<MeshCollider>();
        

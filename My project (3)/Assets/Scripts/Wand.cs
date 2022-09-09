@@ -3,7 +3,10 @@ using System.Collections.Generic;
 using UnityEngine;
 
 public class Wand : MonoBehaviour
-{ 
+{
+    List<Vector3> Rotations;
+    int currentRotation = 0;
+    GameObject house = null;
 
     [SerializeField] LineRenderer lr;
 
@@ -13,13 +16,24 @@ public class Wand : MonoBehaviour
     // Start is called before the first frame update
     void Start()
     {
-        
+        Rotations = new List<Vector3>();
+        Rotations.Add(new Vector3(90, 0, 0));
+        Rotations.Add(new Vector3(180, 0, 0));
+        Rotations.Add(new Vector3(270, 0, 0));
+        Rotations.Add(new Vector3(0, 90, 0));
+        Rotations.Add(new Vector3(0, 180, 0));
+        Rotations.Add(new Vector3(0, 270, 0));
+        Rotations.Add(new Vector3(0, 0, 90));
+        Rotations.Add(new Vector3(0, 0, 180));
+        Rotations.Add(new Vector3(0, 0, 270));
+        Rotations.Add(new Vector3(0, 0, 0));
     }
 
     // Update is called once per frame
     void Update()
     {
         UseWand();
+        rotateHouse();
     }
 
  private void UseWand() 
@@ -116,9 +130,26 @@ public class Wand : MonoBehaviour
 
     #endregion
 
+    public void setHouse(GameObject h)
+    {
+        house = h;
+    }
 
+   private void rotateHouse()
+    {
+        if (house != null)
+            return;
 
-
+       if (Input.GetButtonDown("XRI_Right_PrimaryButton"))
+        {
+            house.transform.Rotate(Rotations[currentRotation]);
+            currentRotation++;
+            if (currentRotation >= Rotations.Count)
+            {
+                currentRotation = 0;
+            }
+        } 
+    }
   
 
 }

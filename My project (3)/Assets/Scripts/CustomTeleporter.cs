@@ -28,7 +28,7 @@ public class CustomTeleporter : MonoBehaviour
     // Start is called before the first frame update
     void Start()
     {
-        tiPrefab = Resources.Load<GameObject>("Prefab/TeleportIndicator");
+        tiPrefab = Resources.Load<GameObject>("Prefabs/TeleportIndicator");
         ti = Instantiate(tiPrefab,Vector3.zero,Quaternion.identity);
         wand = FindObjectOfType<Wand>();
         FadedObjects = new List<GameObject>();
