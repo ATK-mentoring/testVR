@@ -2,40 +2,28 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 
-/* 
-1. raycast ^
-2. if it hit ^ 
-3. check normal of surface hit ^
-4. if normal outside 45 deg of Vector3.Up, give debug.log feedback "cannot teleport there" ^
-5. fade out and in 
-6. teleport to new position with same rotation ^
-*/
-
-
-
 public class CustomTeleporter : MonoBehaviour
 {
-    [SerializeField] GameObject leftController;
-    [SerializeField] LineRenderer lr;
-    GameObject tiPrefab; // Teleport Indicator 
-    GameObject ti;
-    List<GameObject> FadedObjects;
+    [SerializeField] GameObject leftController;    // reference to left controller gameObject
+    [SerializeField] LineRenderer lr;		// reference to lineRenderer (line that comes out of the end of the controller)
+    GameObject ti;				// reference to the flat cylinder that indicates where the user will teleport
+    GameObject tiPrefab; 			// prefab for the flat cylinder
+    List<GameObject> FadedObjects;		// list of objects made transparent
 
-    Wand wand;
+    Wand wand;	// reference to the wand
 
-    private float maxTeleportDistance = 20f;
-    private float maxNormalAngle = 45f;
-    // Start is called before the first frame update
+    private float maxTeleportDistance = 20f;		// definition for the maximum distance that can be teleported
+    private float maxNormalAngle = 45f;		// the maximum angle before a surface is considered a wall and not teleportable
+
     void Start()
     {
+        // define variables on start
         tiPrefab = Resources.Load<GameObject>("Prefabs/TeleportIndicator");
-        ti = Instantiate(tiPrefab,Vector3.zero,Quaternion.identity);
+        ti = Instantiate(tiPrefab, Vector3.zero, Quaternion.identity);
         wand = FindObjectOfType<Wand>();
         FadedObjects = new List<GameObject>();
     }
 
-
-    // Update is called once per frame
     void Update()
     {
         HandleTeleporter();
@@ -43,7 +31,7 @@ public class CustomTeleporter : MonoBehaviour
 
     private void HandleTeleporter()
     {
-        // Fade to normal
+        // reset faded objects to normal materials
         foreach (GameObject g in FadedObjects)
         {
             g.GetComponent<HouseObject>().ResetMyMaterials();
@@ -54,7 +42,7 @@ public class CustomTeleporter : MonoBehaviour
 
         Teleport();
 
-        // Fade Green
+        // fade hovered objects that have been wanded to a transparent green
         foreach (GameObject g in FadedObjects)
         {
             wand.SetFaded(g);
@@ -64,22 +52,28 @@ public class CustomTeleporter : MonoBehaviour
 
     private void Teleport()
     {
+        // disable teleport indicator by default
         ti.SetActive(false);
 
 
         RaycastHit[] hits;
+        // collect list of objects that the teleporter is pointing at as hits
         hits = Physics.RaycastAll(leftController.transform.position, leftController.transform.TransformDirection(Vector3.forward), maxTeleportDistance);
         if (hits.Length > 0) // layerMask
         {
+            // sort the list from closest to farthest
             System.Array.Sort(hits, (x, y) => x.distance.CompareTo(y.distance));
-            for (int i = 0; i < hits.Length; i++) {
+            for (int i = 0; i < hits.Length; i++)
+            {
                 if (hits[i].transform.gameObject.tag == "Wanded")
                 {
+                    // if an object has been wanded, it can be passed through
                     FadedObjects.Add(hits[i].transform.gameObject);
                     continue;
                 }
                 if (Vector3.Angle(Vector3.up, hits[i].normal) < maxNormalAngle)
                 {
+                    // if it is a valid floor that hasnt been wanded, then put the teleport indicator there
                     ChangeLineRendererColor(Color.green);
                     ti.SetActive(true);
                     ti.gameObject.transform.position = hits[i].point;
@@ -92,7 +86,7 @@ public class CustomTeleporter : MonoBehaviour
                 }
                 else
                 {
-                    //cannot teleport there
+                    // cannot teleport there
                     ChangeLineRendererColor(Color.red);
                     break;
                 }
@@ -111,5 +105,8 @@ public class CustomTeleporter : MonoBehaviour
         lr.startColor = color;
         lr.endColor = color;
     }
-   
+
 }
+
+
+
