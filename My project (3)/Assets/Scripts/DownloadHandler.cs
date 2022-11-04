@@ -9,19 +9,20 @@ using System;
 using System.IO.Compression;
 using System.ComponentModel;
 
-public class DownloadHandler : MonoBehaviour {
+public class DownloadHandler : MonoBehaviour
+{
     // event for completion of download
     public event System.ComponentModel.AsyncCompletedEventHandler? DownloadFileCompleted;
     // path to zip
     string path = "";
 
-    void Start () 
+    void Start()
     {
-       DownloadFile();
+        DownloadFile();
     }
 
     void DownloadFile()
-    { 
+    {
         WebClient client = new WebClient();
 
         path = Application.persistentDataPath + "/" + "ArchicadObjSize.zip";
@@ -55,12 +56,38 @@ public class DownloadHandler : MonoBehaviour {
         RaycastHit hit;
         if (Physics.Raycast(player.transform.position, Vector3.down, out hit, Mathf.Infinity))
         {
-            if(hit.collider.gameObject != house)
+            if (hit.collider.gameObject != house)
             {
                 player.transform.position = house.transform.position;
-            }                                                                          
-        }      
+            }
+        }
     }
-    
+
+
+    private void OnApplicationQuit()
+    {
+        ClearFiles("Vacation Home.obj");
+        ClearFiles("TEST 8");
+        ClearFiles("ArchicadObjSize.zip");
+    }
+
+    private void ClearFiles(string path)
+    {
+        string target = Application.persistentDataPath + "/" + path;
+        if (path.Substring(path.Length - 4, 1) == ".")
+        {
+            File.Delete(target);
+        }
+        else
+        {
+            Directory.Delete(target, true);
+            
+
+        }
+    }
+
+
+
+
 
 }
