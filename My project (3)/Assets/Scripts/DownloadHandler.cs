@@ -45,11 +45,12 @@ public class DownloadHandler : MonoBehaviour
         // load object into world 
         loadedObject.gameObject.transform.Rotate(-90f, 0f, 0f, Space.World);
         // apply collision 
-        WorldManager.ApplyCollidersToHouse(loadedObject);
+        WorldManager.Instance.ApplyCollidersToHouse(loadedObject);
         // give reference of house to wand
         FindObjectOfType<Wand>().setHouse(loadedObject);
         // spawns player near house
-        positionPlayer(loadedObject);
+        WorldManager.Instance.PositionPlayer();
+        //positionPlayer(loadedObject);
         Debug.Log("Repositioning player");
     }
 
