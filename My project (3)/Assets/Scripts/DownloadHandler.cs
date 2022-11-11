@@ -32,14 +32,16 @@ public class DownloadHandler : MonoBehaviour
         // call download function 
         client.DownloadFileAsync(uri, path);
 
-
+        Debug.Log("Downloading File");
     }
 
     void DownloadFileCallback(object sender, AsyncCompletedEventArgs e)
     {
         // extract to assets folder
         ZipFile.ExtractToDirectory(path, Application.persistentDataPath);
+        Debug.Log("UnZipping File");
         var loadedObject = new OBJLoader().Load(Application.persistentDataPath + "/TEST 8/" + "Vacation Home.obj");
+        Debug.Log("Loading OBJ File");
         // load object into world 
         loadedObject.gameObject.transform.Rotate(-90f, 0f, 0f, Space.World);
         // apply collision 
@@ -48,6 +50,7 @@ public class DownloadHandler : MonoBehaviour
         FindObjectOfType<Wand>().setHouse(loadedObject);
         // spawns player near house
         positionPlayer(loadedObject);
+        Debug.Log("Repositioning player");
     }
 
     void positionPlayer(GameObject house)
@@ -66,6 +69,7 @@ public class DownloadHandler : MonoBehaviour
 
     private void OnApplicationQuit()
     {
+        Debug.Log("Deleting files");
         ClearFiles("Vacation Home.obj");
         ClearFiles("TEST 8");
         ClearFiles("ArchicadObjSize.zip");
