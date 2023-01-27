@@ -25,8 +25,6 @@ public class SettingsSceneManager : MonoBehaviour
         // position dollhouse in front of camera
         dollhouse.transform.position = dummyPosition;
 
-
-
         Bounds bounds = getBounds(dollhouse);
         Vector2 screenSize = new Vector2(Screen.width, Screen.height);
 
