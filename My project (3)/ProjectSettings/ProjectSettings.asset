@@ -4,7 +4,11 @@
 PlayerSettings:
   m_ObjectHideFlags: 0
   serializedVersion: 23
+<<<<<<< Updated upstream
   productGUID: d5d90d5d87d718d47a16dbfe6944eaba
+=======
+  productGUID: 3cad4cc36fdb2ea48a2bd3a6f2bd7c69
+>>>>>>> Stashed changes
   AndroidProfiler: 0
   AndroidFilterTouchesWhenObscured: 0
   AndroidEnableSustainedPerformanceMode: 0
@@ -134,7 +138,11 @@ PlayerSettings:
     16:10: 1
     16:9: 1
     Others: 1
+<<<<<<< Updated upstream
   bundleVersion: 0.1
+=======
+  bundleVersion: 1.0
+>>>>>>> Stashed changes
   preloadedAssets: []
   metroInputSource: 0
   wsaTransparentSwapchain: 0
@@ -780,7 +788,11 @@ PlayerSettings:
     m_VersionCode: 1
     m_VersionName: 
   apiCompatibilityLevel: 6
+<<<<<<< Updated upstream
   activeInputHandler: 2
+=======
+  activeInputHandler: 0
+>>>>>>> Stashed changes
   cloudProjectId: 
   framebufferDepthMemorylessMode: 0
   qualitySettingsNames: []
