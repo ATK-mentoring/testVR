@@ -16,11 +16,13 @@ public class PopulateScrollView : MonoBehaviour
             var item_go = Instantiate(m_ItemPrefab);
             // do something with the instantiated item -- for instance
             item_go.GetComponentInChildren<Text>().text = "Item #" + i;
-            item_go.GetComponent<Image>().color = i % 2 == 0 ? Color.yellow : Color.cyan;
+            //item_go.GetComponent<Image>().color = i % 2 == 0 ? Color.yellow : Color.cyan;
             //parent the item to the content container
             item_go.transform.SetParent(m_ContentContainer);
             //reset the item's scale -- this can get munged with UI prefabs
             item_go.transform.localScale = Vector2.one;
+
+            item_go.GetComponent<ListItem>().SetValue(i);
         }
     }
 }
