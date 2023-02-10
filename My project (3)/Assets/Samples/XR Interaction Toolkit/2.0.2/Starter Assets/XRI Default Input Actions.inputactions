@@ -796,6 +796,15 @@
                     "processors": "",
                     "interactions": "",
                     "initialStateCheck": true
+                },
+                {
+                    "name": "Ui Mde Activate",
+                    "type": "Button",
+                    "id": "a813fc72-23b7-4564-abb7-bbabbfa95d22",
+                    "expectedControlType": "Button",
+                    "processors": "",
+                    "interactions": "",
+                    "initialStateCheck": false
                 }
             ],
             "bindings": [
@@ -974,6 +983,17 @@
                     "action": "Translate Anchor",
                     "isComposite": false,
                     "isPartOfComposite": true
+                },
+                {
+                    "name": "",
+                    "id": "351509d3-a9b8-4ea0-805f-53dd9c38c90f",
+                    "path": "<XRController>{RightHand}/primary",
+                    "interactions": "",
+                    "processors": "",
+                    "groups": "Generic XR Controller",
+                    "action": "Ui Mde Activate",
+                    "isComposite": false,
+                    "isPartOfComposite": false
                 }
             ]
         },
