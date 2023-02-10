@@ -805,6 +805,15 @@
                     "processors": "",
                     "interactions": "",
                     "initialStateCheck": false
+                },
+                {
+                    "name": "New action",
+                    "type": "Button",
+                    "id": "6f1d52ff-5432-4628-9b9d-4371d755ffdc",
+                    "expectedControlType": "Button",
+                    "processors": "",
+                    "interactions": "",
+                    "initialStateCheck": false
                 }
             ],
             "bindings": [
@@ -994,6 +1003,17 @@
                     "action": "Ui Mde Activate",
                     "isComposite": false,
                     "isPartOfComposite": false
+                },
+                {
+                    "name": "",
+                    "id": "72cfb269-01d7-4f45-afe8-6abd746ee73e",
+                    "path": "",
+                    "interactions": "",
+                    "processors": "",
+                    "groups": "Generic XR Controller",
+                    "action": "New action",
+                    "isComposite": false,
+                    "isPartOfComposite": false
                 }
             ]
         },
@@ -1089,6 +1109,34 @@
                     "processors": "",
                     "groups": "Generic XR Controller",
                     "action": "Turn",
+                    "isComposite": false,
+                    "isPartOfComposite": false
+                }
+            ]
+        },
+        {
+            "name": "CUSTOM",
+            "id": "3fea4b98-6fae-4d39-9b86-30e7c0b61dad",
+            "actions": [
+                {
+                    "name": "Teleport",
+                    "type": "Value",
+                    "id": "4ee988ad-7af0-4c3b-8c30-e1743c9070d6",
+                    "expectedControlType": "Button",
+                    "processors": "",
+                    "interactions": "",
+                    "initialStateCheck": true
+                }
+            ],
+            "bindings": [
+                {
+                    "name": "",
+                    "id": "4cbd5dcd-8a98-41c5-9642-7aef54c8645b",
+                    "path": "<XRController>{LeftHand}/triggerPressed",
+                    "interactions": "",
+                    "processors": "",
+                    "groups": "Generic XR Controller",
+                    "action": "Teleport",
                     "isComposite": false,
                     "isPartOfComposite": false
                 }

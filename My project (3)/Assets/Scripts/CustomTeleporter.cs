@@ -1,9 +1,11 @@
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using UnityEngine.InputSystem;
 
 public class CustomTeleporter : MonoBehaviour
 {
+    [SerializeField] InputActionReference teleportButton; // 
     [SerializeField] GameObject leftController;    // reference to left controller gameObject
     [SerializeField] LineRenderer lr;		// reference to lineRenderer (line that comes out of the end of the controller)
     GameObject ti;				// reference to the flat cylinder that indicates where the user will teleport
@@ -14,6 +16,18 @@ public class CustomTeleporter : MonoBehaviour
 
     private float maxTeleportDistance = 20f;		// definition for the maximum distance that can be teleported
     private float maxNormalAngle = 45f;		// the maximum angle before a surface is considered a wall and not teleportable
+
+    private void Awake()
+    {
+        teleportButton.action.performed += EnableTeleport;
+
+    }
+    bool AllowTeleport = false;
+    void EnableTeleport(InputAction.CallbackContext context) 
+    { 
+        AllowTeleport= true;
+        Debug.Log("anything");
+    }
 
     void Start()
     {
@@ -78,8 +92,11 @@ public class CustomTeleporter : MonoBehaviour
                     ti.SetActive(true);
                     ti.gameObject.transform.position = hits[i].point;
 
-                    if (Input.GetButtonDown("XRI_Left_TriggerButton"))
+                    ////////////
+
+                    if (AllowTeleport)
                     {
+                        
                         gameObject.transform.position = hits[i].point;
                     }
                     break;
@@ -97,7 +114,9 @@ public class CustomTeleporter : MonoBehaviour
             // could not find a hit
             ChangeLineRendererColor(Color.red);
         }
+        AllowTeleport= false;
     }
+
 
 
     private void ChangeLineRendererColor(Color color)
