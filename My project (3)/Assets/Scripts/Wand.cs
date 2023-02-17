@@ -1,6 +1,7 @@
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using UnityEngine.InputSystem;
 
 public class Wand : MonoBehaviour
 {
@@ -11,69 +12,53 @@ public class Wand : MonoBehaviour
     [SerializeField] LineRenderer lr;   // reference to lineRenderer that projects line out of wand
 
     [SerializeField] GameObject rightController; // reference to right controller
+    [SerializeField] InputActionReference wandButton;
 
     private float maxWandDistance = 1.6f;   // Maximum interaction distance for wand
+    private bool haveTarget = false; //boolean to confirm if wand should be useable and is on-target
+    private RaycastHit target; // storing target for wand use
 
     void Start()
     {
         createRotationList();
+        wandButton.action.Enable();
+        wandButton.action.performed += UseWand;
     }
 
-    void createRotationList()
+    void UseWand(InputAction.CallbackContext context)
     {
-        //  create and add each of 6 rotations to the list
-        Rotations = new List<Vector3>();
-        Rotations.Add(new Vector3(90, 0, 0));
-        Rotations.Add(new Vector3(180, 0, 0));
-        Rotations.Add(new Vector3(270, 0, 0));
-        Rotations.Add(new Vector3(0, 90, 0));
-        Rotations.Add(new Vector3(0, 180, 0));
-        Rotations.Add(new Vector3(0, 270, 0));
-        Rotations.Add(new Vector3(0, 0, 90));
-        Rotations.Add(new Vector3(0, 0, 180));
-        Rotations.Add(new Vector3(0, 0, 270));
-        Rotations.Add(new Vector3(0, 0, 0));
+        DestroyCollider(target);   // remove collider on object hit by wand
     }
 
     void Update()
     {
-        UseWand();
-        rotateHouse();
+        PointWand();
     }
 
-    private void UseWand()
+    private void PointWand()
     {
         RaycastHit hit;
         // fire raycast out of wand
         if (Physics.Raycast(rightController.transform.position, rightController.transform.TransformDirection(Vector3.forward), out hit, maxWandDistance))
         {
-            // Debug.DrawRay(rightController.transform.position, rightController.transform.TransformDirection(Vector3.forward) * hit.distance, Color.yellow);
-            // Debug.Log("Did Hit");
-            // Debug.DrawRay(hit.point, hit.normal  * 1000, Color.yellow);
-
             // define colours of line renderer gradient 
             lr.startColor = Color.blue;
             lr.endColor = Color.green;
-            DestroyCollider(hit);   // remove collider on object hit by wand
+            haveTarget = true;
+            target = hit;
 
         }
         else
         {
-            // Debug.DrawRay(rightController.transform.position, rightController.transform.TransformDirection(Vector3.forward) * 1000, Color.white);
-            // Debug.Log("Did not Hit");
-
             // define colours of line renderer gradient 
             lr.startColor = Color.blue;
             lr.endColor = Color.red;
+            haveTarget = false;
         }
     }
 
     private void DestroyCollider(RaycastHit hit)
     {
-        // when using the right trigger... 
-        if (Input.GetButtonDown("XRI_Right_TriggerButton"))
-        {
-
             if (hit.transform.gameObject.GetComponent<MeshCollider>() != null)
             {
                 hit.transform.gameObject.tag = "Wanded";
@@ -82,9 +67,8 @@ public class Wand : MonoBehaviour
                 // Destroy(hit.transform.gameObject.GetComponent<MeshCollider>());
                 // Debug.Log("Collider Destroyed");
             }
-        }
     }
-
+    /*
     private void MakeObjectTransparent(GameObject houseObject)
     {
         // get all materials applied to the mesh of a gameobject, and set them to transparency
@@ -110,7 +94,7 @@ public class Wand : MonoBehaviour
         mr.materials = newMaterials;
 
     }
-
+    */
     #region HandleMaterials
 
     // reference to transparent material
@@ -166,7 +150,21 @@ public class Wand : MonoBehaviour
             }
         }
     }
-
+    void createRotationList()
+    {
+        //  create and add each of 6 rotations to the list
+        Rotations = new List<Vector3>();
+        Rotations.Add(new Vector3(90, 0, 0));
+        Rotations.Add(new Vector3(180, 0, 0));
+        Rotations.Add(new Vector3(270, 0, 0));
+        Rotations.Add(new Vector3(0, 90, 0));
+        Rotations.Add(new Vector3(0, 180, 0));
+        Rotations.Add(new Vector3(0, 270, 0));
+        Rotations.Add(new Vector3(0, 0, 90));
+        Rotations.Add(new Vector3(0, 0, 180));
+        Rotations.Add(new Vector3(0, 0, 270));
+        Rotations.Add(new Vector3(0, 0, 0));
+    }
 }
 
 

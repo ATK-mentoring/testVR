@@ -1122,7 +1122,16 @@
                     "name": "Teleport",
                     "type": "Value",
                     "id": "4ee988ad-7af0-4c3b-8c30-e1743c9070d6",
-                    "expectedControlType": "Button",
+                    "expectedControlType": "",
+                    "processors": "",
+                    "interactions": "",
+                    "initialStateCheck": true
+                },
+                {
+                    "name": "UseWand",
+                    "type": "Value",
+                    "id": "3e5bf41e-e4d2-4991-8e99-6037cd126978",
+                    "expectedControlType": "",
                     "processors": "",
                     "interactions": "",
                     "initialStateCheck": true
@@ -1137,6 +1146,17 @@
                     "processors": "",
                     "groups": "Generic XR Controller",
                     "action": "Teleport",
+                    "isComposite": false,
+                    "isPartOfComposite": false
+                },
+                {
+                    "name": "",
+                    "id": "2fe18aca-1c87-42fa-bece-004f2f2c39db",
+                    "path": "<XRController>{RightHand}/triggerPressed",
+                    "interactions": "",
+                    "processors": "",
+                    "groups": "Generic XR Controller",
+                    "action": "UseWand",
                     "isComposite": false,
                     "isPartOfComposite": false
                 }

@@ -19,6 +19,7 @@ public class CustomTeleporter : MonoBehaviour
 
     private void Awake()
     {
+        teleportButton.action.Enable();
         teleportButton.action.performed += EnableTeleport;
 
     }
@@ -26,7 +27,6 @@ public class CustomTeleporter : MonoBehaviour
     void EnableTeleport(InputAction.CallbackContext context) 
     { 
         AllowTeleport= true;
-        Debug.Log("anything");
     }
 
     void Start()
@@ -96,7 +96,6 @@ public class CustomTeleporter : MonoBehaviour
 
                     if (AllowTeleport)
                     {
-                        
                         gameObject.transform.position = hits[i].point;
                     }
                     break;
