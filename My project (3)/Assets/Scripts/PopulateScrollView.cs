@@ -15,7 +15,7 @@ public class PopulateScrollView : MonoBehaviour
         {
             var item_go = Instantiate(m_ItemPrefab);
             // do something with the instantiated item -- for instance
-            item_go.GetComponentInChildren<Text>().text = "Item #" + i;
+            item_go.GetComponentInChildren<Text>().text = "Persephone Jaxon" + i;
             //item_go.GetComponent<Image>().color = i % 2 == 0 ? Color.yellow : Color.cyan;
             //parent the item to the content container
             item_go.transform.SetParent(m_ContentContainer);
@@ -25,4 +25,15 @@ public class PopulateScrollView : MonoBehaviour
             item_go.GetComponent<ListItem>().SetValue(i);
         }
     }
+
+    /*  static void main(string[] args)
+     {
+         List<string> ListOfCustomers = new List<string>();
+         {
+             "Persephone Jaxon",
+             "Clementine klavsoki",
+             "Chrysanthemum McLoad",
+             "Magdalena robinson"
+         };
+     }*/
 }
