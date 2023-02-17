@@ -27,7 +27,8 @@ public class Wand : MonoBehaviour
 
     void UseWand(InputAction.CallbackContext context)
     {
-        DestroyCollider(target);   // remove collider on object hit by wand
+        if(haveTarget)
+            DestroyCollider(target);   // remove collider on object hit by wand
     }
 
     void Update()

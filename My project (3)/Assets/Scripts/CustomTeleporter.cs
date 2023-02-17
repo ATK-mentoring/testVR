@@ -103,6 +103,7 @@ public class CustomTeleporter : MonoBehaviour
                 else
                 {
                     // cannot teleport there
+                    
                     ChangeLineRendererColor(Color.red);
                     break;
                 }
@@ -120,6 +121,8 @@ public class CustomTeleporter : MonoBehaviour
 
     private void ChangeLineRendererColor(Color color)
     {
+        lr.positionCount = 2;
+        lr.SetPosition(1, new Vector3(0, 0, 20));
         lr.startColor = color;
         lr.endColor = color;
     }
