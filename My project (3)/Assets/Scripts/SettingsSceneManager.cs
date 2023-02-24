@@ -5,10 +5,11 @@ using UnityEngine;
 public class SettingsSceneManager : MonoBehaviour
 {
 
-    [SerializeField] GameObject dollhouse;
+    [SerializeField] GameObject dollhouseParent;
+    GameObject dollhouse;
     [SerializeField] Camera dollCam;
     public float perspectiveCompensation = 0.95f;
-    Vector3 dummyPosition = new Vector3(550.5f,259,10);
+    Vector3 dummyPosition = new Vector3(550f,250,10);
 
     void Start()
     {
@@ -22,8 +23,14 @@ public class SettingsSceneManager : MonoBehaviour
     }
 
     void SetupHouseDummy() {
+        dollhouse = FindObjectOfType<DataManager>().GetHouse();
+        GameObject dh = Instantiate(dollhouse, dummyPosition, Quaternion.identity);
+        dh.transform.parent = dollhouseParent.transform;
+        dh.transform.localPosition = new Vector3(0, 0, 0);
+        SetHouseObjectsLayers(dh);
+
         // position dollhouse in front of camera
-        dollhouse.transform.position = dummyPosition;
+        dollhouseParent.transform.position = dummyPosition;
 
         Bounds bounds = getBounds(dollhouse);
         Vector2 screenSize = new Vector2(Screen.width, Screen.height);
@@ -48,6 +55,15 @@ public class SettingsSceneManager : MonoBehaviour
         {
             //Set the scale of the object.
             transform.localScale = transform.localScale * maximumScale * perspectiveCompensation;
+        }
+    }
+
+    void SetHouseObjectsLayers(GameObject parent) {
+        parent.layer = 3;
+
+        foreach (Transform child in parent.transform)
+        {
+            SetHouseObjectsLayers(child.gameObject);
         }
     }
 

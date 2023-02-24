@@ -12,8 +12,6 @@ public static class WorldManager : object
     {
         parent.AddComponent<MeshCollider>();
        
-       
-
         foreach(Transform child in parent.transform)
         {
             ApplyCollidersToHouse(child.gameObject);
