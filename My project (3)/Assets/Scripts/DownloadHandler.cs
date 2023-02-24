@@ -66,12 +66,15 @@ public class DownloadHandler : MonoBehaviour
 
     private void OnApplicationQuit()
     {
+        DeleteAllFiles();
+    }
+
+    public void DeleteAllFiles() {
         ClearFiles("Vacation Home.obj");
         ClearFiles("TEST 8");
         ClearFiles("ArchicadObjSize.zip");
     }
-
-    private void ClearFiles(string path)
+    public void ClearFiles(string path)
     {
         string target = Application.persistentDataPath + "/" + path;
         if (path.Substring(path.Length - 4, 1) == ".")
@@ -81,13 +84,6 @@ public class DownloadHandler : MonoBehaviour
         else
         {
             Directory.Delete(target, true);
-            
-
         }
     }
-
-
-
-
-
 }

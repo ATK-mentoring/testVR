@@ -13,8 +13,10 @@ public class Wand : MonoBehaviour
 
     [SerializeField] GameObject rightController; // reference to right controller
     [SerializeField] InputActionReference wandButton;
+    [SerializeField] InputActionReference wandActivateButton;
 
-    private float maxWandDistance = 1.6f;   // Maximum interaction distance for wand
+    bool wandActive = false;
+    private float maxWandDistance = 2.5f;   // Maximum interaction distance for wand
     private bool haveTarget = false; //boolean to confirm if wand should be useable and is on-target
     private RaycastHit target; // storing target for wand use
 
@@ -22,15 +24,20 @@ public class Wand : MonoBehaviour
     {
         createRotationList();
         wandButton.action.Enable();
+        wandActivateButton.action.Enable();
         wandButton.action.performed += UseWand;
+        wandActivateButton.action.performed += ActivateWand;
+        wandActivateButton.action.canceled += ActivateWand;
     }
 
     void UseWand(InputAction.CallbackContext context)
     {
-        if(haveTarget)
+        if(haveTarget && wandActive)
             DestroyCollider(target);   // remove collider on object hit by wand
     }
-
+    void ActivateWand(InputAction.CallbackContext context) {
+        wandActive = !wandActive;
+    }
     void Update()
     {
         PointWand();
@@ -38,13 +45,18 @@ public class Wand : MonoBehaviour
 
     private void PointWand()
     {
+        if (!wandActive) {
+            lr.enabled = false;
+            return;
+        }
+
+        lr.enabled = true;
         RaycastHit hit;
         // fire raycast out of wand
-        if (Physics.Raycast(rightController.transform.position, rightController.transform.TransformDirection(Vector3.forward), out hit, maxWandDistance))
+        if (Physics.Raycast(rightController.transform.position, rightController.transform.TransformDirection(Vector3.down), out hit, maxWandDistance))
         {
             // define colours of line renderer gradient 
-            lr.startColor = Color.blue;
-            lr.endColor = Color.green;
+            ChangeLineRendererColor(Color.green);
             haveTarget = true;
             target = hit;
 
@@ -52,8 +64,7 @@ public class Wand : MonoBehaviour
         else
         {
             // define colours of line renderer gradient 
-            lr.startColor = Color.blue;
-            lr.endColor = Color.red;
+            ChangeLineRendererColor(Color.red);
             haveTarget = false;
         }
     }
@@ -95,7 +106,15 @@ public class Wand : MonoBehaviour
         mr.materials = newMaterials;
 
     }
+
     */
+    private void ChangeLineRendererColor(Color color)
+    {
+        lr.positionCount = 2;
+        lr.SetPosition(1, new Vector3(0, -maxWandDistance, 0));
+        lr.startColor = Color.blue;
+        lr.endColor = color;
+    }
     #region HandleMaterials
 
     // reference to transparent material

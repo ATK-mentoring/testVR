@@ -1135,6 +1135,33 @@
                     "processors": "",
                     "interactions": "",
                     "initialStateCheck": true
+                },
+                {
+                    "name": "ActivateWand",
+                    "type": "Value",
+                    "id": "e9e17f9a-88c0-47ee-9d26-cf52c57a9b75",
+                    "expectedControlType": "",
+                    "processors": "",
+                    "interactions": "",
+                    "initialStateCheck": true
+                },
+                {
+                    "name": "LeftSecondary",
+                    "type": "Value",
+                    "id": "37285a21-b676-45dd-b1de-f34b3956c16d",
+                    "expectedControlType": "",
+                    "processors": "",
+                    "interactions": "",
+                    "initialStateCheck": true
+                },
+                {
+                    "name": "RightSecondary",
+                    "type": "Value",
+                    "id": "61051e7e-d61b-4299-8979-2d59b34d2bb8",
+                    "expectedControlType": "",
+                    "processors": "",
+                    "interactions": "",
+                    "initialStateCheck": true
                 }
             ],
             "bindings": [
@@ -1157,6 +1184,39 @@
                     "processors": "",
                     "groups": "Generic XR Controller",
                     "action": "UseWand",
+                    "isComposite": false,
+                    "isPartOfComposite": false
+                },
+                {
+                    "name": "",
+                    "id": "2752ff34-e9f6-475d-8631-0d34358e1b84",
+                    "path": "<XRController>{RightHand}/primaryButton",
+                    "interactions": "",
+                    "processors": "",
+                    "groups": "Generic XR Controller",
+                    "action": "ActivateWand",
+                    "isComposite": false,
+                    "isPartOfComposite": false
+                },
+                {
+                    "name": "",
+                    "id": "f0532bbb-343e-4434-9338-45a6a1e7ec4a",
+                    "path": "<XRController>{LeftHand}/secondaryButton",
+                    "interactions": "",
+                    "processors": "",
+                    "groups": "Generic XR Controller",
+                    "action": "LeftSecondary",
+                    "isComposite": false,
+                    "isPartOfComposite": false
+                },
+                {
+                    "name": "",
+                    "id": "752b984e-f680-4aed-888e-0e180e6ea5f4",
+                    "path": "<XRController>{RightHand}/secondaryButton",
+                    "interactions": "",
+                    "processors": "",
+                    "groups": "Generic XR Controller",
+                    "action": "RightSecondary",
                     "isComposite": false,
                     "isPartOfComposite": false
                 }
