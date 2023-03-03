@@ -60,6 +60,13 @@ public class SettingsSceneManager : MonoBehaviour
         }
     }
 
+    public void startRotation() {
+        
+    }
+    public void dragRotation() {
+    
+    }
+
     #endregion
 
 
