@@ -12,19 +12,14 @@ public class SettingsScenePlayer : MonoBehaviour
     [SerializeField] GameObject controller;
     //public OVRInput.Button grabButton;
     //public OVRInput.Button resetRotationButton;
+    private Vector3 aimDirection;
 
     [Header("dollhouse")]
     public GameObject dollhouse;
 
     [Header("Activation Settings")]
     public float activationDistance;
-
-    private bool dollhouseGrabbed = false;
-
-    // record positions on click
-    private Vector3 startingPositionOfController;
-    private Quaternion startingRotationOfController;
-    private Quaternion startingRotationOfDollhouse;
+    private bool sliderDragging = false;
 
     private void Start()
     {
@@ -38,20 +33,13 @@ public class SettingsScenePlayer : MonoBehaviour
     }
 
     private void GrabButton(InputAction.CallbackContext context) {
-        if (IsHoveringButton())
-        {
-            dollhouseGrabbed = true;
-            startingPositionOfController = controller.transform.position;
-            startingRotationOfController = controller.transform.rotation;
-            startingRotationOfDollhouse = dollhouse.transform.rotation;
-
-        }
+        PressButton();
 
         controller.GetComponent<LineRenderer>().positionCount = 2;
-        controller.GetComponent<LineRenderer>().SetPosition(1, new Vector3(0, -20, 0));
+        controller.GetComponent<LineRenderer>().SetPosition(1, aimDirection*20);
     }
     private void GrabRelease(InputAction.CallbackContext context) {
-        dollhouseGrabbed = false;
+        sliderDragging = false;
     }
     private void ResetButton(InputAction.CallbackContext context) {
         dollhouse.transform.eulerAngles = Vector3.zero;
@@ -59,29 +47,37 @@ public class SettingsScenePlayer : MonoBehaviour
 
     void Update()
     {
-        Rotate();
+        DragSlider();
     }
 
-    void Rotate()
-    {
-        if (!dollhouseGrabbed) { return; }
-
-        Vector3 positionDifference = controller.transform.position - startingPositionOfController;
-        Quaternion rotationDifference = controller.transform.rotation * Quaternion.Inverse(startingRotationOfController);
-
-        dollhouse.transform.rotation = startingRotationOfDollhouse * rotationDifference;
-    }
-
-    bool IsHoveringButton()
-    {
-        RaycastHit[] hits;
-        hits = Physics.RaycastAll(controller.transform.position, controller.transform.TransformDirection(Vector3.down), Mathf.Infinity);
-        for (int i = 0; i < hits.Length; i++) {
-            if (hits[i].transform.gameObject.GetComponent<RawImage>() != null) {
-                return true;
+    void DragSlider() {
+        if (sliderDragging) {
+            RaycastHit[] hits;
+            hits = Physics.RaycastAll(controller.transform.position, controller.transform.TransformDirection(aimDirection), Mathf.Infinity);
+            for (int i = 0; i < hits.Length; i++) {
+                if (hits[i].transform.gameObject.name == "SlidingArea") {
+                    // P(x1, y1, z1) and Q(x2, y2, z2) = PQ = ?[(x2 – x1)2 + (y2 – y1)2 + (z2 – z1)2]
+                    //Vector3 difference = hits[i].transform.position - hits[i].point;
+                }
             }
         }
+    }
 
-        return false;
+    void PressButton()
+    {
+        RaycastHit[] hits;
+        hits = Physics.RaycastAll(controller.transform.position, controller.transform.TransformDirection(aimDirection), Mathf.Infinity);
+        for (int i = 0; i < hits.Length; i++) {
+            if (hits[i].transform.gameObject.GetComponent<Button>() != null) {
+                hits[i].transform.gameObject.GetComponent<Button>().onClick.Invoke();
+                break;
+            }
+
+            if (hits[i].transform.gameObject.name == "Handle")
+            {
+                sliderDragging = true;
+                break;
+            }
+        }
     }
 }
