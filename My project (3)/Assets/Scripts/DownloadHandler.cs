@@ -12,7 +12,7 @@ using System.ComponentModel;
 public class DownloadHandler : MonoBehaviour
 {
     // event for completion of download
-    public event System.ComponentModel.AsyncCompletedEventHandler? DownloadFileCompleted;
+    public event AsyncCompletedEventHandler? DownloadFileCompleted;
     // path to zip
     string path = "";
 
