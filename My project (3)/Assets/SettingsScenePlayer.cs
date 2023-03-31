@@ -28,7 +28,8 @@ public class SettingsScenePlayer : MonoBehaviour
         rightX.action.canceled += GrabRelease;
 
         controller.GetComponent<LineRenderer>().positionCount = 2;
-        controller.GetComponent<LineRenderer>().SetPosition(1, new Vector3(0, -20, 0));
+        aimDirection = Vector3.down;
+        controller.GetComponent<LineRenderer>().SetPosition(1, aimDirection * 20);
         //rightTrigger.action.performed += ResetButton;
     }
 
